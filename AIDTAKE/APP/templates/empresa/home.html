@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.0.0/css/all.css">
+    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    <title>AIDTAKE BUSSINES</title>
+</head>
+
+<style>
+</style>
+{% block content %}
+<body >
+    <section class="header">
+        <div class="container-logo">
+            <div class="logo">
+
+            </div>
+            <h3>The Good Burger</h3>
+        </div>
+        <a class="container-user" href="{% url 'logout' %}">
+            <div class="user">
+
+            </div>
+            <h3>{{data_user.nombre}} {{data_user.apellido}}</h3>
+        </a>
+        <div class="noti">
+            2
+        </div>
+    </section>
+    <section class="center">
+        <div class="top">
+            <a href="/inventario">
+                <div class="badge yellow">
+                    <div class="circle"><i class="fa-solid fa-cart-flatbed-boxes"></i></div>
+                    <div class="ribbon">Inventario</div>
+                </div>
+            </a>
+            <a href="/productos">
+                <div class="badge orange">
+                    <div class="circle"> <i class="fab fa-accessible-icon"></i></div>
+                    <div class="ribbon">Productos</div>
+                </div>
+            </a>
+            <div class="badge pink">
+                <div class="circle"> <i class="fab fa-pied-piper-hat"></i></div>
+                <div class="ribbon">Nuker</div>
+            </div>
+            <div class="badge red">
+                <div class="circle"> <i class="fas fa-shield"></i></div>
+                <div class="ribbon">Ganker</div>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="badge purple">
+                <div class="circle"> <i class="fas fa-anchor"></i></div>
+                <div class="ribbon">Durable</div>
+            </div>
+            <div class="badge teal">
+                <div class="circle"> <i class="fas fa-bicycle"></i></div>
+                <div class="ribbon">Roamer</div>
+            </div>
+            <div class="badge blue">
+                <div class="circle"> <i class="fas fa-users"></i></div>
+                <div class="ribbon">Pusher</div>
+            </div>
+            <a href="/empleados">
+                <div class="badge blue-dark">
+                    <div class="circle" style="margin-right: 15px !important"> <i class="fas fa-users"></i></div>
+                    <div class="ribbon">Equipo</div>
+                </div>
+            </a>
+        </div>
+    </section>
+    <section class="footer">
+        <div class="footer-buttons">
+            <div class="top-footer">
+                <button>Soporte Técnico</button>
+                <button>Soporte Técnico</button>
+                <button>Soporte Técnico</button>
+            </div>
+            <div class="bottom-footer">
+                <button>Soporte Técnico</button>
+                <button>Soporte Técnico</button>
+                <button>Soporte Técnico</button>
+            </div>
+        </div>
+    </section>
+</body>
+{% endblock content %}
+
+</html>

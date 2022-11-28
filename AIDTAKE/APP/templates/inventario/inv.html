@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'inventario/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js"
+        integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src='{% static "inventario/js/app.js" %}'></script>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.0.0/css/all.css">
+    <title>AIDTAKE BUSSINES</title>
+</head>
+
+<body>
+    <section class="header">
+        <div class="back-icon">
+            <a href="/home">
+                <i class="fa-solid fa-arrow-left-long-to-line"></i>
+            </a>
+        </div>
+        <div class="container-user">
+            <div class="user">
+
+            </div>
+            <span>{{data_user.nombre}} {{data_user.apellido}}</span>
+        </div>
+    </section>
+    <!-- Modal -->
+    <div class="pop-up" id="pop_up">
+
+        <div class="pop-up-container">
+            <div class="arrow-back-visible">
+                <a href="/inventario">
+                    <i class="fa-solid fa-arrow-left-long-to-line"></i>
+                </a>
+            </div>
+            <form method="POST" class="form-visible">
+                <div class="pop-up-header">
+                    <a href="/inventario">
+                        <i class="fa-solid fa-arrow-left-long-to-line"></i>
+                    </a>
+                    <button type="submit">
+                        <i class="fa-solid fa-floppy-disk save"></i>
+                    </button>
+                </div>
+
+                <fieldset style="border: none"  disabled="disabled" id="fieldset">
+                                   <div class="pop-up-form-data">
+                    <div class="pop-up-form-container-data">
+                    <div class="pop-up-img"></div>
+                    <div class="pop-up-form-data-fields">
+                        <span>{{form.Nombre.label}}</span>
+                         {{form.Nombre}}
+                    </div>
+                    <div class="pop-up-form-data-fields">
+                        <span>{{form.Proveedor.label}}</span>
+                         {{form.Proveedor}}
+                    </div>
+                    <div class="pop-up-form-data-fields">
+                        <span>{{form.Categoria.label}}</span>
+                         {{form.Categoria}}
+                    </div>
+                    <div class="pop-up-form-data-fields">
+                        <span>{{form.UltimaCompra.label}}</span>
+                         {{form.UltimaCompra}}
+                    </div>
+                    <div class="pop-up-form-data-fields">
+                        <span>{{form.Unidad.label}}</span>
+                         {{form.Unidad}}
+                    </div>
+                    <div class="pop-up-form-data-fields">
+                        <span>{{form.Stock.label}}</span>
+                         {{form.Stock}}
+                    </div>
+                    </div>
+                    <div class="form-data-container-box">
+                    <div class="form-data-box">
+                        <h3 style="grid-column: 1 / 4;">Stock</h3>
+                        <div class="form-data-box-container">
+                            <div style="grid-column: 1 / 2;">
+                                <div>{{form.Naranja.label}}</div>
+                                {{form.Naranja}}
+                            </div>
+                            <div style="grid-column: 2 / 3;">
+                                <div>{{form.Rojo.label}}</div>
+                                {{form.Rojo}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-data-box">
+                        <h3 style="grid-column: 1 / 4;">Coste de Compra</h3>
+                                                <div class="form-data-box-container">
+                        <div style="grid-column: 1;">
+                            <div>{{form.CosteCompraSinIva.label}}</div>
+                            {{form.CosteCompraSinIva}}
+                        </div>
+                        <div style="grid-column: 2;">
+                            <div>{{form.CosteCompraConIva.label}}</div>
+                            {{form.CosteCompraConIva}}
+                        </div>
+                        <div style="grid-column: 3;">
+                            <div>{{form.Iva.label}}</div>
+                            {{form.Iva}}
+                        </div>
+                                                </div>
+
+                    </div>
+                    </div>
+
+                </fieldset>
+
+                </div>
+
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    <section class="center">
+        <div class="top">
+            <a href="/inventario">
+                <div class="icon">
+                    <div class="icon-box selected" data-info="all"><i class="fa-solid fa-globe" id="globe"></i></div>
+                    <span>TODOS</span>
+                </div>
+            </a>
+            {% for cats in cat %}
+            {% if cats.Color == '1' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box yellow" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '2' %}
+            <div class="icon">
+                <div class="icon-box orange" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                <span>{{cats.Nombre|upper}}</span>
+            </div>
+            {% elif cats.Color == '3' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box pink" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '4' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box red" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '5' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box purple" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '6' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box teal" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '7' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box blue" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '8' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box blue-dark" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '9' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box green" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '10' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box green-dark" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '11' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box silver" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {% elif cats.Color == '12' %}
+            <a href="?category={{cats.id}}">
+                <div class="icon">
+                    <div class="icon-box gold" data-info="{{cats.id}}"> <i class="{{cats.Icono}}"></i></div>
+                    <span>{{cats.Nombre|upper}}</span>
+                </div>
+            </a>
+            {%endif%}
+            {% endfor %}
+            <div class="icon">
+                <div class="icon-box"> <i class="fa-solid fa-gear"></i></div>
+                <span>AJUSTES</span>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="header-items">
+                <div class="ordenar-cont">
+                    <!--<div class="ordenar"><span>NOMBRE</span>
+
+                    </div>-->
+                    <div class="stock-buttons">
+                        <a href="/inventario">
+                            <div class="box selected">
+                                <div class="circle blue-dark-bg"></div>
+                            </div>
+                        </a>
+                        <a href="?stock=green">
+                            <div class="box" data-info="green">
+                                <div class="circle green-dark-bg"></div>
+                            </div>
+                        </a>
+                        <a href="?stock=orange">
+                            <div class="box" data-info="orange">
+                                <div class="circle orange-bg"></div>
+                            </div>
+                        </a>
+                        <a href="?stock=red">
+                            <div class="box" data-info="red">
+                                <div class="circle red-bg"></div>
+                            </div>
+                        </a>
+                        <a href="?stock=black">
+                            <div class="box" data-info="black">
+                                <div class="circle black-bg"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <form method="POST">
+                    <div style="display: flex">
+                        <input type="text" class="item-input" type="search" name="searched" placeholder="BUSCA UN ARTICULO">
+                        <button class="gear-box button-input" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                    {% csrf_token %}
+                </form>
+                <div style="display: flex">
+                    <a href="crear_articulo/">
+                        <div class="gear-box" data-info="add"><i class="fa-solid fa-plus green-dark"></i></div>
+                    </a>
+                    <div class="gear-box" data-info="quit"><i class="fa-solid fa-minus red"></i></div>
+                    <div class="gear-box" data-info="edit"><i class="fa-solid fa-pencil"></i></div>
+                </div>
+            </div>
+            <div class="item-container">
+
+                        {% for items in item %}
+                        {% if items.Stock == 0 %}
+                        <a href="mostrar_articulo/{{items.Nombre}}">
+                            <div class="item-cont">
+                                <div class="circle-item"><img src=""></div>
+                                <span>{{items.Nombre|title}}</span>
+                                <div class="box" style="margin-left: 5px">
+                                            {% if items.Stock > 999 %}
+                                            <span>+999</span>
+                                            {% else %}
+                                            <span>{{items.Stock}}</span>
+                                            {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                                <a href="borrar_articulo/{{items.Nombre}}" class="edit-quit-product quit" style="display:none">
+                                    <div class="circle white-bg circle-quit">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                                <a href="editar_articulo/{{items.Nombre}}" class="edit-quit-product edit" style="display:none">
+                                    <div class="circle white-bg circle-quit">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                        {% elif items.Stock <= items.Rojo %} <a href="mostrar_articulo/{{items.Nombre}}">
+                            <div class="item-cont">
+                                <div class="circle-item"></div>
+                                <span>{{items.Nombre|title}}</span>
+                                <div class="box" style="margin-left: 5px">
+                                    <div class="circle red-bg"></div>
+                                            {% if items.Stock > 999 %}
+                                            <span>+999</span>
+                                            {% else %}
+                                            <span>{{items.Stock}}</span>
+                                            {% endif %}
+                                </div>
+                            </div>
+                            </a>
+                                <a href="borrar_articulo/{{items.Nombre}}" class="edit-quit-product quit" style="display:none">
+                                    <div class="circle white-bg circle-quit">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                                <a href="editar_articulo/{{items.Nombre}}" class="edit-quit-product edit" style="display:none">
+                                    <div class="circle white-bg circle-quit">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                            {% elif items.Stock <= items.Naranja %} <a href="mostrar_articulo/{{items.Nombre}}">
+                                <div class="item-cont">
+                                    <div class="circle-item"></div>
+                                    <span>{{items.Nombre|title}}</span>
+                                    <div class="box" style="margin-left: 5px">
+                                        <div class="circle orange-bg"></div>
+                                            {% if items.Stock > 999 %}
+                                            <span>+999</span>
+                                            {% else %}
+                                            <span>{{items.Stock}}</span>
+                                            {% endif %}
+                                    </div>
+                                </div>
+                                </a>
+                                <a href="borrar_articulo/{{items.Nombre}}" class="edit-quit-product quit" style="display:none">
+                                    <div class="circle white-bg circle-quit">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                                <a href="editar_articulo/{{items.Nombre}}" class="edit-quit-product edit" style="display:none">
+                                    <div class="circle white-bg circle-quit">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                                {% else %}
+                                <a href="mostrar_articulo/{{items.Nombre}}">
+                                    <div class="item-cont">
+                                        <div class="circle-item"><img src=""/></div>
+                                        <span>{{items.Nombre|title}}</span>
+                                        <div class="box" style="margin-left: 5px">
+                                            <div class="circle green-dark-bg"></div>
+                                            {% if items.Stock > 999 %}
+                                            <span>+999</span>
+                                            {% else %}
+                                            <span>{{items.Stock}}</span>
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <a href="borrar_articulo/{{items.Nombre}}" class="edit-quit-product quit" style="display:none">
+                                    <div class="circle white-bg circle-quit" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                                <a href="editar_articulo/{{items.Nombre}}" class="edit-quit-product edit" style="display:none">
+                                    <div class="circle white-bg circle-quit">
+                                        <i class="fa-solid fa-minus red toggle-icon"></i>
+                                    </div>
+                                </a>
+                                {%endif%}
+                                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
